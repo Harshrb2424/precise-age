@@ -1,74 +1,63 @@
-
-
-
-// function reminder() {
-//     const minute = 1000 * 60;
-//     const hour = minute * 60;
-//     const day = hour * 24;
-//     const year = day * 365;
-
-//     let birthYear = 2004;
-//     let birthMonth = 2;
-//     let birthDate = 21;
-//     let birthday = `${birthYear}-${birthMonth}-${birthDate}`;
-
-//     // Divide Time with a year
-//     const bd = new Date(birthday);
-//     let byears = (bd.getTime() / year);
-//     // console.log(byears);
-//     const d = new Date();
-//     let years = (d.getTime() / year);
-//     // console.log(years);
-//     let age = years - byears;
-//     console.log(age.toFixed(9));
-// }   
-
-// setInterval(() => {
-//     reminder();
-// }, 1000);
-
-
+// script.js
 document.addEventListener('DOMContentLoaded', function () {
-    // Get the element to update
-    const animatedValueElement = document.getElementById('animatedValue');
-  
-    // Function to update the value (replace this with your logic)
-    function updateValue() {
-      // For demonstration purposes, a random value is generated
-    //   const newValue = Math.floor(Math.random() * 100);
-      const minute = 1000 * 60;
-      const hour = minute * 60;
-      const day = hour * 24;
-      const year = day * 365;
-  
-      let birthYear = 2004;
-      let birthMonth = 11;
-      let birthDate = 5 + 7;
-      let birthday = `${birthYear}-${birthMonth}-${birthDate}`;
-  
-      // Divide Time with a year
-      const bd = new Date(birthday);
-      let byears = (bd.getTime() / year);
-      // console.log(byears);
-      const d = new Date();
-      let years = (d.getTime() / year);
-      // console.log(years);
-      let age = years - byears;
-      console.log(age.toFixed(9));
-      // Use Anime.js to animate the value change
-      anime({
-        targets: animatedValueElement,
-        textContent: age,
-        round: 1000000000, // Round the number to avoid decimal values in the animation
-        easing: 'linear',
-        duration: 1000, // Animation duration in milliseconds
-      });
+  const animatedValueElement = document.getElementById('animatedValue');
+
+  let birthYear = 1000;
+  let birthMonth = 1;
+  let birthDate = 1 ;
+
+  function updateValue(year, month, date) {
+
+ 
+    if (year == 1000) {
+      var ageHeader = document.getElementById("ageHeader");
+      ageHeader.textContent = "This Year";
+      var pageTitle = document.getElementById("pageTitle");
+      pageTitle.textContent = "This Year";
     }
-  
-    // Update the value every second
-    setInterval(updateValue, 1000);
-  
-    // Initial update
-    updateValue();
-  });
-  
+
+    const birthday = `${year}-${month}-${date}`;
+    const yearValue = 1000 * 60 * 60 * 24 * 365.25;
+          // Divide Time with a year
+          const bd = new Date(birthday);
+          let byears = (bd.getTime() / yearValue);
+          // console.log(byears);
+          const d = new Date();
+          let years = (d.getTime() / yearValue);
+          // console.log(years);
+          let age = years - byears;
+          console.log(age.toFixed(9));
+          if (year == 1000) {
+            age += 1000;
+          };
+    anime({
+      targets: animatedValueElement,
+      textContent: age,
+      round: 1000000000,
+      easing: 'linear',
+      duration: 1000,
+    });
+  }
+
+  function getValuesFromUrl() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const year = parseInt(urlParams.get('birthYear')) || birthYear;
+    const month = parseInt(urlParams.get('birthMonth')) || birthMonth;
+    const date = parseInt(urlParams.get('birthDate')) || birthDate;
+
+    return { year, month, date };
+  }
+
+  function updateFromUrl() {
+    const { year, month, date } = getValuesFromUrl();
+    updateValue(year, month, date);
+  }
+
+  setInterval(updateFromUrl, 1000);
+
+  updateFromUrl(); // Initial update
+});
+
+
+//* file:///E:/Harsh%20%7BLaptop%7D/Backup%2004%202023/Skills/Code/Exercise/2022-23/Web%20Dev%20V2/Projects/decimal-age/index.html?birthYear=2004&birthMonth=11&birthDate=5
+//* file:///E:/Harsh%20%7BLaptop%7D/Backup%2004%202023/Skills/Code/Exercise/2022-23/Web%20Dev%20V2/Projects/decimal-age/index.html
