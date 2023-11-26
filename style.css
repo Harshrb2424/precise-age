@@ -6,10 +6,13 @@ body{
     align-items: center;
     font-family: 'Montserrat', sans-serif;
     height: 90vh;
+    opacity: 70%;
+
+    transition: all ease-in-out 1s;
 }
 body > div{
     min-width: 20%;
-    opacity: 70%;
+    
 }
 h2{
     text-align: center;
@@ -19,7 +22,7 @@ h2{
 #animatedValue{
     font-size: 32px;
     text-align: center;
-    padding-left: 5%;
+    /* padding-left: 5%; */
 
 }
 
