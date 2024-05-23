@@ -1,4 +1,5 @@
 // script.js
+let yearp = 0;
 
 document.addEventListener('DOMContentLoaded', function () {
 
@@ -18,12 +19,11 @@ document.addEventListener('DOMContentLoaded', function () {
   });
 
   const animatedValueElement = document.getElementById('animatedValue');
-
+  newYear = new Date().getFullYear()+1;
   let birthYear = 1000;
   let birthMonth = 1;
   let birthDate = 1 ;
-
-  function updateValue(year, month, date) {
+  function updateValue(year, month, date, newYear) {
 
  
     if (year == 1000) {
@@ -31,6 +31,15 @@ document.addEventListener('DOMContentLoaded', function () {
       ageHeader.textContent = "This Year";
       var pageTitle = document.getElementById("pageTitle");
       pageTitle.textContent = "This Year";
+    }
+
+    if (newYear) {
+      console.log("newYear: "+newYear);
+      let today = new Date();
+      let pastNewYear = new Date(today.getFullYear(), 0 ,1);
+      let comingNewYear = new Date((today.getFullYear() + 1), 0 ,1);
+      yearp = (today.getTime() - pastNewYear.getTime()) / (comingNewYear.getTime() - pastNewYear.getTime());
+      console.log((yearp*100).toFixed(6));
     }
 
     const birthday = `${year}-${month}-${date}`;
@@ -44,12 +53,18 @@ document.addEventListener('DOMContentLoaded', function () {
           if (year == 1000) {
             age += 1000;
           };
+    
+
     anime({
       targets: animatedValueElement,
-      textContent: age,
-      round: 100000000,
+      textContent: (yearp == 0) ? age : (yearp*100).toFixed(5),
+      round: (yearp == 0) ? 100000000: 1000000,
       easing: 'linear',
       duration: 1000,
+      update: function(anim) {
+        if (yearp != 0)
+        animatedValueElement.innerHTML = (yearp*100).toFixed(5) + '%';
+    }
     });
   }
 
@@ -58,13 +73,16 @@ document.addEventListener('DOMContentLoaded', function () {
     const year = parseInt(urlParams.get('birthYear')) || birthYear;
     const month = parseInt(urlParams.get('birthMonth')) || birthMonth;
     const date = parseInt(urlParams.get('birthDate')) || birthDate;
+    const newYear = parseInt(urlParams.get('newYear')) || 0;
 
-    return { year, month, date };
+ 
+
+    return { year, month, date, newYear };
   }
 
   function updateFromUrl() {
-    const { year, month, date } = getValuesFromUrl();
-    updateValue(year, month, date);
+    const { year, month, date, newYear } = getValuesFromUrl();
+    updateValue(year, month, date, newYear);
   }
 
   setInterval(updateFromUrl, 1000);
@@ -78,8 +96,5 @@ $(document).ready(function() {
   if ($("h2").text() == "Your Age is") {
     $("form").hide();
   }
-
-  setTimeout(function() {
-    $("form").fadeOut();
-  }, 30000);
+    if (yearp != 0) $("form").fadeOut();
 });
