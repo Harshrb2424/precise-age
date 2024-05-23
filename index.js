@@ -13,9 +13,18 @@ document.addEventListener('DOMContentLoaded', function () {
     var year = dateObject.getFullYear();
     var month = dateObject.getMonth() + 1; 
     var day = dateObject.getDate();
-    hbdLink.href = "index.html?birthYear=" + year + "&birthMonth=" + month + "&birthDate=" + day;
-    console.log(hbdLink.href);
-    window.location.href = hbdLink.href;
+    if (year && month && day) {
+      hbdLink.href = "index.html?birthYear=" + year + "&birthMonth=" + month + "&birthDate=" + day;
+      console.log(hbdLink.href);
+      window.location.href = hbdLink.href;
+    }
+  });
+  var celebrateButton = document.getElementById("celebrate");
+
+  celebrateButton.addEventListener("click", function(event) {
+    event.preventDefault();
+    
+    window.location.href = "index.html?newYear=" + (new Date().getFullYear()+1);
   });
 
   const animatedValueElement = document.getElementById('animatedValue');
@@ -95,6 +104,8 @@ $(document).ready(function() {
   console.log($("h2").text());
   if ($("h2").text() == "Your Age is") {
     $("form").hide();
+    $("a").fadeOut();
   }
-    if (yearp != 0) $("form").fadeOut();
+  if (yearp != 0) $("form").fadeOut();
+  if (yearp != 0) $("a").fadeOut();
 });
